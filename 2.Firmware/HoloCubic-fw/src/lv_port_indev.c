@@ -70,7 +70,7 @@ lv_indev_t* indev_encoder;     // 编码器输入设备对象
  * 这些变量由IMU模块更新，用于模拟编码器的旋转和按压状态
  */
 int32_t encoder_diff;           // 编码器旋转差值（正值：顺时针，负值：逆时针）
-lv_indev_state_t encoder_state; // 编码器按键状态（LV_INDEV_STATE_PRESSED/LV_INDEV_STATE_RELEASED）
+lv_indev_state_t encoder_state; // 编码器按键状态（LV_INDEV_STATE_PRESSED/LV_INDEV_STATE_REL）
 
 
 /**********************
@@ -173,7 +173,7 @@ static void encoder_init(void)
 {
     /* 初始化编码器状态变量 */
     encoder_diff = 0;                           // 旋转差值清零
-    encoder_state = LV_INDEV_STATE_RELEASED;    // 按键状态设为释放
+    encoder_state = LV_INDEV_STATE_REL;    // 按键状态设为释放
     
     /* IMU传感器的具体初始化在imu.cpp的IMU::init()中完成 */
     /* 这里主要是编码器逻辑层的初始化 */
@@ -245,6 +245,8 @@ static void encoder_handler(void)
     encoder_diff += 0;  // 实际值由imu.cpp中的手势识别算法设置
     
     /* 按键状态更新（示例，实际由IMU敲击检测更新） */
-    encoder_state = LV_INDEV_STATE_RELEASED;  // 实际值由imu.cpp中的敲击检测设置
+    encoder_state = LV_INDEV_STATE_REL;  // 实际值由imu.cpp中的敲击检测设置
 }
+
+#endif  // 结束条件编译
 

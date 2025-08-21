@@ -21,21 +21,24 @@
  */
 
 #include "imu.h"
-#include <MPU6050_tockn.h>  // MPU6050传感器库
+#include <MPU6050.h>        // MPU6050传感器库
 #include <Wire.h>           // I2C通信库
 
-// MPU6050传感器对象实例，使用Wire I2C总线
-MPU6050 imu(Wire);
+// MPU6050传感器对象实例
+// 注意：对象在IMU类中定义，这里不需要重复定义
+//MPU6050 imu(Wire);
 
 /**** LVGL编码器输入设备全局变量 ****/
+// 这些变量在lv_port_indev.c中已经定义，这里使用extern声明
 // 编码器旋转差值，用于LVGL滚动事件
 // 正值表示顺时针旋转，负值表示逆时针旋转
-int16_t encoder_diff = 0;
+// int16_t encoder_diff = 0;
+// extern int encoder_diff;
 
 // 编码器按键状态，用于LVGL按键事件
-// LV_INDEV_STATE_PR: 按下状态
+// LV_INDEV_STATE_PRESSED: 按下状态
 // LV_INDEV_STATE_REL: 释放状态
-lv_indev_state_t encoder_state = LV_INDEV_STATE_REL;
+// lv_indev_state_t encoder_state = LV_INDEV_STATE_REL;
 
 /**
  * IMU传感器初始化函数
