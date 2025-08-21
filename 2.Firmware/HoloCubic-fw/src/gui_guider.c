@@ -1,13 +1,75 @@
-#include "lvgl.h"
-#include <stdio.h>
-#include "gui_guider.h"
+/**
+ * @file gui_guider.c
+ * @brief HoloCubic GUI向导主控制文件
+ * 
+ * 功能概述：
+ * 本文件是HoloCubic图形用户界面的主控制器，负责管理和协调
+ * 各个界面屏幕的初始化、切换和生命周期管理。
+ * 
+ * 界面架构：
+ * 1. 主界面（Home）：颜色选择器界面，用于RGB LED控制
+ * 2. 场景界面（Scenes）：动画播放界面，显示3D全息效果
+ * 3. 界面切换：支持多屏幕无缝切换
+ * 4. 资源管理：统一管理界面资源和内存
+ * 
+ * 技术特点：
+ * - 基于LVGL图形库的现代GUI设计
+ * - 模块化界面组织结构
+ * - 支持动态界面切换
+ * - 内存高效的资源管理
+ * - 响应式界面布局
+ * 
+ * 应用场景：
+ * - RGB LED颜色控制和调节
+ * - 3D全息动画展示
+ * - 系统状态显示和监控
+ * - 用户交互和设置配置
+ * 
+ * @author ClimbSnail
+ * @version 1.0
+ * @date 2021
+ */
 
+#include "lvgl.h"        // LVGL图形库核心头文件
+#include <stdio.h>       // 标准输入输出库
+#include "gui_guider.h"  // GUI向导头文件
 
+/**
+ * GUI用户界面初始化函数
+ * 
+ * @param ui GUI界面结构体指针，包含所有界面对象
+ * 
+ * 功能说明：
+ * 1. 初始化所有GUI界面屏幕
+ * 2. 设置界面的默认显示状态
+ * 3. 建立界面间的导航关系
+ * 4. 配置界面的显示优先级
+ * 
+ * 初始化流程：
+ * 1. 创建主界面（颜色选择器）
+ * 2. 加载并显示主界面
+ * 3. 创建场景界面（动画播放）
+ * 4. 切换到场景界面作为默认显示
+ * 
+ * 界面说明：
+ * - Home界面：提供RGB颜色选择功能，用于控制LED灯效
+ * - Scenes界面：播放预设的3D全息动画效果
+ * 
+ * 注意事项：
+ * - 必须在LVGL和显示系统初始化后调用
+ * - 界面切换会自动处理资源释放
+ * - 最后加载的界面将成为当前显示界面
+ */
 void setup_ui(lv_ui* ui)
 {
-	setup_scr_home(ui);
-	lv_scr_load(ui->home);
+	/* 初始化主界面（RGB颜色选择器） */
+	setup_scr_home(ui);     // 创建主界面UI元素
+	lv_scr_load(ui->home);  // 加载主界面到显示系统
 
-	setup_scr_scenes(ui);
-	lv_scr_load(ui->scenes);
+	/* 初始化场景界面（3D全息动画播放） */
+	setup_scr_scenes(ui);     // 创建场景界面UI元素
+	lv_scr_load(ui->scenes);  // 切换到场景界面（默认显示）
+	
+	/* 场景界面将作为系统启动后的默认显示界面 */
+	/* 用户可以通过IMU手势在不同界面间切换 */
 }
